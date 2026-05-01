@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For My Baccha 🌹</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wine: #6B1F35;
+      --deep-wine: #3E0D1F;
+      --gold: #C9A84C;
+      --light-gold: #E8CC7A;
+      --cream: #FDF6E8;
+      --blush: #F5DDD8;
+      --text: #2C1810;
+      --text-light: #8B6355;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'EB Garamond', serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── Custom Cursor ─── */
+    .cursor {
+      width: 22px; height: 22px;
+      border: 1.5px solid var(--wine);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transition: transform 0.2s ease;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-dot {
+      width: 5px; height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ─── Floating Petals ─── */
+    .petal {
+      position: fixed; pointer-events: none; z-index: 0;
+      animation: petalFall linear infinite; opacity: 0;
+    }
+    @keyframes petalFall {
+      0%   { transform: translateY(-60px) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ─── Nav Dots ─── */
+    .nav-dots {
+      position: fixed; right: 1.6rem; top: 50%;
+      transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 1rem; z-index: 200;
+    }
+    .nav-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      border: 1.5px solid var(--wine); background: transparent;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .nav-dot.active { background: var(--wine); transform: scale(1.35); }
+
+    /* ─── Section base ─── */
+    section { position: relative; z-index: 1; }
+
+    /* ─── HERO ─── */
+    .hero {
+      height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 60%, rgba(107,31,53,0.1) 0%, transparent 70%);
+    }
+    .hero-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem; letter-spacing: 0.55em;
+      text-transform: uppercase; color: var(--gold);
+      opacity: 0; animation: fadeUp 1s ease 0.4s forwards;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(5.5rem, 17vw, 14rem);
+      font-weight: 300; font-style: italic;
+      color: var(--wine); line-height: 0.95;
+      opacity: 0; animation: fadeUp 1.3s ease 0.8s forwards;
+      text-shadow: 2px 6px 40px rgba(107,31,53,0.18);
+    }
+    .hero-sub {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.25rem; font-style: italic;
+      color: var(--text-light); margin-top: 1.8rem;
+      opacity: 0; animation: fadeUp 1s ease 1.3s forwards;
+    }
+    .hero-rule {
+      width: 130px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 2rem auto;
+      opacity: 0; animation: fadeIn 1s ease 1.7s forwards;
+    }
+    .hero-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem; letter-spacing: 0.35em; color: var(--gold);
+      opacity: 0; animation: fadeUp 1s ease 2s forwards;
+    }
+    .scroll-hint {
+      position: absolute; bottom: 2.2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+      opacity: 0; animation: fadeIn 1s ease 2.8s forwards;
+      color: var(--text-light); font-size: 0.7rem; letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 55px;
+      background: linear-gradient(to bottom, var(--wine), transparent);
+      animation: scrollBob 2s ease-in-out infinite;
+    }
+    @keyframes scrollBob {
+      0%,100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+      50%      { opacity: 0.3; transform: scaleY(0.5); }
+    }
+
+    /* ─── SHARED ─── */
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-style: italic; color: var(--wine);
+      text-align: center; margin-bottom: 0.6rem;
+    }
+    .section-sub {
+      font-style: italic; color: var(--text-light);
+      text-align: center; font-size: 1.05rem;
+    }
+    .gold-rule {
+      width: 80px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 1.3rem auto 0;
+    }
+
+    /* ─── LOVE LETTER ─── */
+    .letter-section {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 8rem 1.5rem;
+    }
+    .letter-paper {
+      max-width: 690px; width: 100%;
+      background: #fffaf0;
+      padding: 4.5rem 4rem 3.5rem;
+      position: relative;
+      box-shadow: 0 6px 80px rgba(107,31,53,0.09), 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .letter-paper::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(to right, var(--wine), var(--gold), var(--wine));
+    }
+    .letter-paper::after {
+      content: '\201C';
+      position: absolute; top: 0.5rem; left: 2.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 9rem; line-height: 1;
+      color: rgba(107,31,53,0.07); pointer-events: none;
+    }
+    .letter-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem; font-style: italic; color: var(--wine);
+      margin-bottom: 2.2rem;
+    }
+    .letter-body {
+      font-size: 1.15rem; line-height: 2.1; color: var(--text);
+    }
+    .letter-body p { margin-bottom: 1.6rem; }
+    .letter-signature {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.1rem; font-style: italic; color: var(--wine);
+      text-align: right; margin-top: 2.5rem;
+    }
+    .wax-seal {
+      position: absolute; bottom: -1.8rem; right: 3rem;
+      width: 58px; height: 58px;
+      background: radial-gradient(circle at 38% 38%, #9B3050, var(--deep-wine));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 6px 24px rgba(107,31,53,0.35);
+    }
+
+    /* ─── REASONS ─── */
+    .reasons-section {
+      min-height: 100vh; padding: 8rem 1.5rem;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .tap-hint {
+      font-style: italic; color: var(--text-light);
+      font-size: 0.88rem; margin: 2rem 0 2.5rem; text-align: center;
+    }
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+      gap: 1.5rem; max-width: 880px; width: 100%;
+    }
+    .reason-card {
+      background: #fffaf0;
+      border: 1px solid rgba(201,168,76,0.3);
+      cursor: pointer; position: relative; overflow: hidden;
+      aspect-ratio: 1;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .reason-card:hover { transform: translateY(-5px); box-shadow: 0 22px 55px rgba(107,31,53,0.13); }
+    .r-front, .r-back {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem; text-align: center;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .r-front { background: linear-gradient(145deg, #fffaf0, #f9ead8); }
+    .r-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.5rem; font-weight: 300;
+      color: rgba(107,31,53,0.08);
+      position: absolute; top: 0.6rem; right: 1.2rem;
+    }
+    .r-icon { font-size: 2.6rem; margin-bottom: 0.8rem; }
+    .r-hint { font-style: italic; color: var(--text-light); font-size: 0.92rem; line-height: 1.6; }
+    .r-back {
+      background: var(--wine);
+      opacity: 0; transform: scale(0.92);
+    }
+    .r-back-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-style: italic;
+      color: #fff; line-height: 1.7;
+    }
+    .reason-card.revealed .r-front { opacity: 0; transform: scale(0.92); }
+    .reason-card.revealed .r-back  { opacity: 1; transform: scale(1); }
+    .reason-card.revealed { border-color: var(--wine); }
+
+    /* ─── TIMELINE ─── */
+    .timeline-section {
+      min-height: 100vh; padding: 8rem 1.5rem;
+      display: flex; flex-direction: column; align-items: center;
+      background: linear-gradient(180deg, var(--cream) 0%, #f0e0d2 100%);
+    }
+    .timeline {
+      max-width: 660px; width: 100%; position: relative; margin-top: 3.5rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--gold), var(--wine), var(--gold), transparent);
+      transform: translateX(-50%);
+    }
+    .t-item {
+      display: flex; margin-bottom: 4rem; position: relative;
+    }
+    .t-item:nth-child(odd) { flex-direction: row-reverse; }
+    .t-dot {
+      position: absolute; left: 50%; top: 1.4rem;
+      width: 15px; height: 15px;
+      background: var(--wine); border-radius: 50%;
+      transform: translateX(-50%);
+      border: 2.5px solid var(--gold); z-index: 1;
+    }
+    .t-box {
+      width: 44%;
+      background: #fffaf0;
+      padding: 1.6rem;
+      border: 1px solid rgba(201,168,76,0.25);
+    }
+    .t-item:nth-child(odd)  .t-box { margin-right: 3rem; }
+    .t-item:nth-child(even) .t-box { margin-left: 3rem; }
+    .t-emoji { font-size: 1.4rem; margin-bottom: 0.3rem; }
+    .t-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem;
+    }
+    .t-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.38rem; color: var(--wine);
+      font-style: italic; margin-bottom: 0.5rem;
+    }
+    .t-desc { font-size: 0.95rem; color: var(--text-light); line-height: 1.75; }
+
+    /* ─── COUNTDOWN ─── */
+    .countdown-section {
+      padding: 8rem 1.5rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .countdowns {
+      display: flex; gap: 5rem; flex-wrap: wrap;
+      justify-content: center; margin-top: 3rem;
+    }
+    .cd-card { text-align: center; }
+    .cd-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-style: italic;
+      color: var(--text-light); margin-bottom: 1.5rem; line-height: 1.6;
+    }
+    .cd-nums { display: flex; gap: 0.8rem; align-items: center; }
+    .cd-unit { text-align: center; }
+    .cd-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.8rem; font-weight: 300;
+      color: var(--wine); line-height: 1;
+      min-width: 68px; display: block;
+    }
+    .cd-unit-lbl {
+      font-size: 0.68rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold); margin-top: 0.3rem;
+    }
+    .cd-sep {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; color: var(--gold);
+      opacity: 0.45; padding-bottom: 1rem;
+    }
+
+    /* ─── MUSIC VIBE ─── */
+    .music-section {
+      padding: 8rem 1.5rem;
+      display: flex; flex-direction: column; align-items: center;
+      background: var(--deep-wine);
+    }
+    .music-section .section-title { color: var(--light-gold); }
+    .music-section .section-sub   { color: rgba(255,255,255,0.45); }
+    .music-section .gold-rule     { opacity: 0.6; }
+    .vinyl-wrap {
+      margin-top: 3.5rem;
+      display: flex; flex-direction: column; align-items: center; gap: 2rem;
+    }
+    .vinyl {
+      width: 230px; height: 230px; border-radius: 50%;
+      background: repeating-radial-gradient(circle at center,
+        #1a1a1a 0%, #111 6%, #2a2a2a 7%, #111 8%, #222 30%,
+        #111 31%, #2a2a2a 46%, #111 47%);
+      position: relative;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.55);
+      animation: spin 10s linear infinite;
+      animation-play-state: paused;
+    }
+    .vinyl.playing { animation-play-state: running; }
+    .vinyl-center {
+      position: absolute; top: 50%; left: 50%;
+      width: 56px; height: 56px;
+      background: radial-gradient(circle at 38% 38%, var(--gold), #7a5a20);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; z-index: 1;
+    }
+    .play-btn {
+      width: 62px; height: 62px; border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      background: transparent; color: var(--gold);
+      font-size: 1.5rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+    }
+    .play-btn:hover { background: rgba(201,168,76,0.15); transform: scale(1.06); }
+    .music-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.15rem;
+      color: rgba(255,255,255,0.6);
+      text-align: center; max-width: 360px; line-height: 1.9;
+    }
+    .music-quote small { display: block; margin-top: 1rem; opacity: 0.4; font-size: 0.82rem; }
+
+    /* ─── FINAL ─── */
+    .final-section {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 5rem 2rem;
+    }
+    .final-heart {
+      font-size: 4.5rem;
+      animation: heartbeat 1.8s ease-in-out infinite;
+      margin-bottom: 2.2rem;
+    }
+    .final-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-style: italic; color: var(--wine); margin-bottom: 1.5rem;
+    }
+    .final-body {
+      max-width: 480px; font-size: 1.15rem;
+      line-height: 2; color: var(--text-light); font-style: italic;
+    }
+    .final-from {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-style: italic;
+      color: var(--gold); margin-top: 3rem;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); } to { transform: rotate(360deg); }
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%     { transform: scale(1.16); }
+      28%     { transform: scale(1); }
+      42%     { transform: scale(1.1); }
+      56%     { transform: scale(1); }
+    }
+
+    /* ─── REVEAL ─── */
+    .reveal {
+      opacity: 0; transform: translateY(45px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      .letter-paper { padding: 3rem 1.6rem 2.5rem; }
+      .timeline::before { left: 16px; }
+      .t-item, .t-item:nth-child(odd) { flex-direction: column; }
+      .t-box { width: 100%; margin-left: 36px !important; margin-right: 0 !important; }
+      .t-dot { left: 16px; }
+      .countdowns { gap: 2.5rem; }
+      .cd-num { font-size: 3rem; min-width: 54px; }
+      body { cursor: auto; }
+      .cursor, .cursor-dot { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor"   id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Petals container -->
+<div id="petals" style="position:fixed;inset:0;pointer-events:none;z-index:0;"></div>
+
+<!-- Nav Dots -->
+<nav class="nav-dots" id="navDots">
+  <div class="nav-dot active" data-idx="0"></div>
+  <div class="nav-dot" data-idx="1"></div>
+  <div class="nav-dot" data-idx="2"></div>
+  <div class="nav-dot" data-idx="3"></div>
+  <div class="nav-dot" data-idx="4"></div>
+  <div class="nav-dot" data-idx="5"></div>
+</nav>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="hero" id="s0">
+  <div class="hero-eyebrow">✦ A gift made with love ✦</div>
+  <div class="hero-name">Baccha</div>
+  <div class="hero-sub">my calm · my joy · my everything</div>
+  <div class="hero-rule"></div>
+  <div class="hero-date">Since 21 · 05 · 2023</div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ LETTER ═══════════════════════ -->
+<section class="letter-section reveal" id="s1">
+  <div class="letter-paper">
+    <div class="letter-heading">My dearest Jam,</div>
+    <div class="letter-body">
+      <p>I still remember that evening — an ordinary pizza restaurant, a nervously beating heart, and you. I hadn't rehearsed anything. I had no grand plan. I proposed with nothing but everything I felt in that moment. And you, being perfectly, beautifully <em>you</em> — made me wait. Made me earn it.</p>
+      <p>When you finally said yes on the 21st of May, my whole world rearranged itself. Quietly. Completely. Into something that finally made sense.</p>
+      <p>Even through the storms — through the months we spent apart — something in me refused to let go. Because you were never just a chapter, Baccha. You are the whole story. And when we found our way back to each other in January, I understood that some things aren't lost. They're only waiting.</p>
+      <p>You are my calm in every chaos. You are the laugh I look for in every room. You are the one I'd choose again and again, in every version of this life. No matter what.</p>
+    </div>
+    <div class="letter-signature">Forever yours 🌹</div>
+    <div class="wax-seal">💌</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ REASONS ═══════════════════════ -->
+<section class="reasons-section reveal" id="s2">
+  <div class="section-title">Why I love you</div>
+  <div class="gold-rule"></div>
+  <p class="tap-hint">✦ tap each card to reveal ✦</p>
+  <div class="reasons-grid">
+
+    <div class="reason-card" onclick="this.classList.toggle('revealed')">
+      <div class="r-front">
+        <div class="r-num">01</div>
+        <div class="r-icon">😂</div>
+        <div class="r-hint">Something about the way you laugh...</div>
+      </div>
+      <div class="r-back">
+        <div class="r-back-text">Your laugh fills every room with a light that no one else can bring. I find myself doing things just to hear it again.</div>
+      </div>
+    </div>
+
+    <div class="reason-card" onclick="this.classList.toggle('revealed')">
+      <div class="r-front">
+        <div class="r-num">02</div>
+        <div class="r-icon">🤍</div>
+        <div class="r-hint">The way you care for people...</div>
+      </div>
+      <div class="r-back">
+        <div class="r-back-text">You care so deeply — even when you pretend not to. Your heart gives more than most people could ever see.</div>
+      </div>
+    </div>
+
+    <div class="reason-card" onclick="this.classList.toggle('revealed')">
+      <div class="r-front">
+        <div class="r-num">03</div>
+        <div class="r-icon">🌊</div>
+        <div class="r-hint">You are my quiet place...</div>
+      </div>
+      <div class="r-back">
+        <div class="r-back-text">In every chaos, every heavy day — you are my calm. You don't fix things. You just make everything feel okay.</div>
+      </div>
+    </div>
+
+    <div class="reason-card" onclick="this.classList.toggle('revealed')">
+      <div class="r-front">
+        <div class="r-num">04</div>
+        <div class="r-icon">🥰</div>
+        <div class="r-hint">The way you're just... unbearably cute...</div>
+      </div>
+      <div class="r-back">
+        <div class="r-back-text">You're so effortlessly cute that sometimes I just stare and wonder how someone can be this adorable without even trying.</div>
+      </div>
+    </div>
+
+    <div class="reason-card" onclick="this.classList.toggle('revealed')">
+      <div class="r-front">
+        <div class="r-num">05</div>
+        <div class="r-icon">🔥</div>
+        <div class="r-hint">Even when you're angry...</div>
+      </div>
+      <div class="r-back">
+        <div class="r-back-text">I love even your anger — because it means you feel, you care, you're real. It never scares me. It only reminds me how deeply you love.</div>
+      </div>
+    </div>
+
+    <div class="reason-card" onclick="this.classList.toggle('revealed')">
+      <div class="r-front">
+        <div class="r-num">06</div>
+        <div class="r-icon">🌈</div>
+        <div class="r-hint">Your childish wonder...</div>
+      </div>
+      <div class="r-back">
+        <div class="r-back-text">Your childish nature is one of my favourite things about you. You remind me that joy doesn't have to make sense — it just has to be felt.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ TIMELINE ═══════════════════════ -->
+<section class="timeline-section reveal" id="s3">
+  <div class="section-title">Our Story</div>
+  <div class="gold-rule"></div>
+  <div class="timeline">
+
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-box">
+        <div class="t-emoji">🍕</div>
+        <div class="t-date">29 March 2023</div>
+        <div class="t-title">The Pizza Restaurant</div>
+        <div class="t-desc">We met for the very first time. The universe decided — right there — that this was the beginning of something beautiful. And I proposed the same evening. Brave? Probably crazy. But completely, wholly meant.</div>
+      </div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-box">
+        <div class="t-emoji">💍</div>
+        <div class="t-date">21 May 2023</div>
+        <div class="t-title">She Said Yes</div>
+        <div class="t-desc">You made me wait. You made me wonder. And then — on the most perfect day — you said yes. That day became our beginning. Our anniversary. The day everything truly started.</div>
+      </div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-box">
+        <div class="t-emoji">🌧️</div>
+        <div class="t-date">July 2025</div>
+        <div class="t-title">The Pause</div>
+        <div class="t-desc">Life got complicated. We stepped apart. But even in the silence, what we had never disappeared. Some things are too real to be erased by distance or time.</div>
+      </div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-box">
+        <div class="t-emoji">🌅</div>
+        <div class="t-date">16 January 2026</div>
+        <div class="t-title">Back to Each Other</div>
+        <div class="t-desc">We found our way home. Back to each other — stronger, clearer, knowing exactly what we almost lost. This wasn't an ending. It was our most honest beginning.</div>
+      </div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-dot" style="background:var(--gold); border-color:var(--wine);"></div>
+      <div class="t-box" style="border-color:rgba(201,168,76,0.5);">
+        <div class="t-emoji">✨</div>
+        <div class="t-date">Today & Always</div>
+        <div class="t-title">Us, right now</div>
+        <div class="t-desc">Still here. Still us. Writing the most beautiful story — one laugh, one quiet moment, one ordinary magical day at a time.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ COUNTDOWN ═══════════════════════ -->
+<section class="countdown-section reveal" id="s4">
+  <div class="section-title">Counting down for her</div>
+  <div class="gold-rule"></div>
+  <div class="countdowns">
+
+    <div class="cd-card">
+      <div class="cd-label">✦ Our Anniversary ✦<br><small style="color:var(--gold);font-size:0.82rem;">21 May 2026 — 3 beautiful years</small></div>
+      <div class="cd-nums">
+        <div class="cd-unit"><span class="cd-num" id="a-d">--</span><div class="cd-unit-lbl">Days</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="a-h">--</span><div class="cd-unit-lbl">Hours</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="a-m">--</span><div class="cd-unit-lbl">Mins</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="a-s">--</span><div class="cd-unit-lbl">Secs</div></div>
+      </div>
+    </div>
+
+    <div class="cd-card">
+      <div class="cd-label">✦ Her Birthday ✦<br><small style="color:var(--gold);font-size:0.82rem;">19 July 2026 — Jaimi's special day</small></div>
+      <div class="cd-nums">
+        <div class="cd-unit"><span class="cd-num" id="b-d">--</span><div class="cd-unit-lbl">Days</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="b-h">--</span><div class="cd-unit-lbl">Hours</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="b-m">--</span><div class="cd-unit-lbl">Mins</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="b-s">--</span><div class="cd-unit-lbl">Secs</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ MUSIC VIBE ═══════════════════════
+<section class="music-section reveal" id="s5">
+  <div class="section-title">Our Vibe</div>
+  <div class="gold-rule"></div>
+  <p class="section-sub" style="margin-top:0.8rem;">some love stories have a soundtrack</p>
+  <div class="vinyl-wrap">
+    <div class="vinyl" id="vinyl">
+      <div class="vinyl-center">🌹</div>
+    </div>
+    <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+    <div class="music-quote">
+      "Every song that makes me think of you is a love letter I never knew how to write."
+      <small>— press play, put on your favourite song, and hold her close 🎶</small>
+    </div>
+  </div>
+</section> -->
+
+<!-- ═══════════════════════ FINAL ═══════════════════════ -->
+<section class="music-section reveal" id="s5">
+  <div class="final-heart">❤️</div>
+  <div class="section-title">Always, always, always — you.</div>
+  <div class="gold-rule"></div>
+  <div class="music-quote">
+    No matter where life takes us, no matter how loud the world gets —
+    I will always find my way back to you, Baccha.<br><br>
+    You are not just my girlfriend. You are my favourite place to be.
+  </div>
+  <div class="final-from">— Yours, always 🌹</div>
+</section>
+
+<script>
+  /* ── Custom Cursor ── */
+  const cursor    = document.getElementById('cursor');
+  const cursorDot = document.getElementById('cursorDot');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left    = e.clientX + 'px';
+    cursor.style.top     = e.clientY + 'px';
+    cursorDot.style.left = e.clientX + 'px';
+    cursorDot.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('.reason-card,.nav-dot,.play-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.style.transform = 'translate(-50%,-50%) scale(2.2)');
+    el.addEventListener('mouseleave', () => cursor.style.transform = 'translate(-50%,-50%) scale(1)');
+  });
+
+  /* ── Floating Petals ── */
+  const emojis = ['🌹','🌸','✨','💫','🍃','🌺'];
+  const pc = document.getElementById('petals');
+  for (let i = 0; i < 14; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    p.style.cssText = `
+      left: ${Math.random() * 100}vw;
+      font-size: ${0.7 + Math.random() * 0.9}rem;
+      animation-duration: ${9 + Math.random() * 14}s;
+      animation-delay: ${Math.random() * 12}s;
+    `;
+    pc.appendChild(p);
+  }
+
+  /* ── Scroll Reveal ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 }).observe = (function(orig){
+    return function(el){ orig.call(this, el); };
+  })(IntersectionObserver.prototype.observe);
+
+  const ro = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => ro.observe(el));
+
+  /* ── Nav Dots ── */
+  const sections = Array.from({length: 6}, (_, i) => document.getElementById('s' + i));
+  const dots     = document.querySelectorAll('.nav-dot');
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      sections[+dot.dataset.idx].scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  const no = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = sections.indexOf(e.target);
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
+    });
+  }, { threshold: 0.5 });
+  sections.forEach(s => s && no.observe(s));
+
+  /* ── Countdown ── */
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function tick(targetDate, dId, hId, mId, sId) {
+    const diff = targetDate - new Date();
+    if (diff <= 0) {
+      [dId, hId, mId, sId].forEach(id => document.getElementById(id).textContent = '00');
+      return;
+    }
+    document.getElementById(dId).textContent = pad(Math.floor(diff / 86400000));
+    document.getElementById(hId).textContent = pad(Math.floor((diff % 86400000) / 3600000));
+    document.getElementById(mId).textContent = pad(Math.floor((diff % 3600000) / 60000));
+    document.getElementById(sId).textContent = pad(Math.floor((diff % 60000) / 1000));
+  }
+  const annDate  = new Date('2026-05-21T00:00:00');
+  const bdayDate = new Date('2026-07-19T00:00:00');
+  function runCountdowns() {
+    tick(annDate,  'a-d','a-h','a-m','a-s');
+    tick(bdayDate, 'b-d','b-h','b-m','b-s');
+  }
+  runCountdowns();
+  setInterval(runCountdowns, 1000);
+
+  /* ── Vinyl Player ── */
+  let playing = false;
+  function togglePlay() {
+    playing = !playing;
+    document.getElementById('vinyl').classList.toggle('playing', playing);
+    document.getElementById('playBtn').textContent = playing ? '⏸' : '▶';
+  }
+</script>
+</body>
+</html>
