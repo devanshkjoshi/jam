@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Secret for Jaimu ❤️</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Premium Fonts (Serif and Sans-Serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+    }
+    .font-serif {
+      font-family: 'Cormorant Garamond', serif;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #030303;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(224, 169, 109, 0.3);
+      border-radius: 4px;
+    }
+    /* Audio visualizer bar animations */
+    @keyframes bounceCustom1 {
+      0%, 100% { height: 4px; }
+      50% { height: 14px; }
+    }
+    @keyframes bounceCustom2 {
+      0%, 100% { height: 8px; }
+      50% { height: 18px; }
+    }
+    @keyframes bounceCustom3 {
+      0%, 100% { height: 6px; }
+      50% { height: 12px; }
+    }
+    .animate-bounce-custom-1 { animation: bounceCustom1 0.8s ease-in-out infinite; }
+    .animate-bounce-custom-2 { animation: bounceCustom2 0.7s ease-in-out infinite; }
+    .animate-bounce-custom-3 { animation: bounceCustom3 0.9s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-[#030303] text-stone-200 overflow-x-hidden selection:bg-[#E0A96D]/30 selection:text-[#E6C594] relative min-h-screen">
+
+  <div id="root"></div>
+
+  <!-- React, ReactDOM, and Babel for Browser Rendering -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Application Source -->
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // ==========================================
+    // 100 UNIQUE ROMANTIC REASONS (CHAPTER 3)
+    // ==========================================
+    const REASONS_100 = [
+      "The way your eyes instantly light up when you see your favorite food.",
+      "Your sleepy, raspy voice in the early morning.",
+      "The effortless way you steal my oversized hoodies and look infinitely better in them.",
+      "How you subconsciously hold my hand tighter when crossing a busy street.",
+      "The beautiful, genuine laugh you have that makes everyone around you smile.",
+      "Your adorable mood swings that keep life exciting.",
+      "The fierce loyalty and protectiveness you have for the people you love.",
+      "Your deep obsession with aesthetic sunset skies.",
+      "The soft, cute face you make when trying to stay mad at me.",
+      "The way you happily steal my fries after declaring 'I'm not hungry.'",
+      "Your absolute warmth and kindness toward random animals we pass by.",
+      "The cute way you scrunch your nose when you're deeply concentrating.",
+      "Your warm, comforting hugs that make all my stress instantly evaporate.",
+      "Your terrible, silly jokes that are so bad they're actually hilarious.",
+      "How you remember the tiniest details from conversations we had months ago.",
+      "The way you play with my fingers when we are sitting together.",
+      "How you look at me when you think I am not paying attention.",
+      "Your unconditional belief in me, even on days I doubt myself.",
+      "The comforting smell of your hair whenever you lean in close.",
+      "Your stubbornness, which shows how incredibly strong-willed you are.",
+      "The cute little happy dance you do when eating something delicious.",
+      "How you always manage to find beauty in the most ordinary moments.",
+      "Your endless patience when dealing with my stubborn side.",
+      "The gentle way you kiss my cheek when saying goodbye.",
+      "How your hand feels like it was custom-made to fit perfectly in mine.",
+      "Your beautiful soul that shines brighter than any physical aesthetic.",
+      "The childish excitement you get over small, unexpected surprises.",
+      "Your random, spontaneous outbursts of pure love and affection.",
+      "The silent comfort we share, where we don't need words to understand each other.",
+      "How you softly hum to yourself when you're feeling happy.",
+      "The way you care for me when I am feeling sick or tired.",
+      "Your unique perspective on life that constantly inspires me to be better.",
+      "The way you say my name when you are being affectionate.",
+      "How you look so incredibly beautiful even in messy pajamas with unbrushed hair.",
+      "The cute little sigh you let out when you finally relax into a hug.",
+      "Your passion for the things you love and the dreams you chase.",
+      "How you protect our little world like it’s the most precious thing on earth.",
+      "The funny nicknames you call me when no one else is around.",
+      "The way you mimic my expressions to tease me.",
+      "How you make even a simple grocery run feel like an adventure.",
+      "The warmth of your skin next to mine on cold nights.",
+      "Your absolute, unwavering honesty even when it’s hard to say.",
+      "How you still get shy and blush when I compliment you intensely.",
+      "The quiet, deep conversations we have in the middle of the night.",
+      "Your elegant sense of style that turns heads wherever we go.",
+      "How your laughter can instantly cure my worst days.",
+      "The sweet little morning texts that kickstart my day with a smile.",
+      "Your beautiful, expressive eyebrows that tell a story of their own.",
+      "The way you gently brush my hair out of my forehead.",
+      "Your love for cozy rainy days spent doing absolutely nothing together.",
+      "How you remember exactly how I take my coffee.",
+      "The quiet confidence you carry yourself with.",
+      "The little gasps you make when watching a shocking plot twist in a movie.",
+      "How you always try to make me feel special and deeply valued.",
+      "The sound of your breathing when you fall asleep next to me.",
+      "Your elegant, soft hands that feel like silk.",
+      "How you support my dreams as if they were your own.",
+      "The way you look in candlelight during our quiet dinner dates.",
+      "The beautiful, deep empathy you have for others' struggles.",
+      "Your hidden competitive side that comes out during casual games.",
+      "The way you hold onto my arm when we walk side by side.",
+      "Your ability to make me feel completely safe and at home.",
+      "The beautiful, soft glow of your skin in the golden hour.",
+      "The funny face you make when trying to mock my serious look.",
+      "Your absolute dedication to keeping our relationship beautiful.",
+      "How you find joy in the simplest, cheapest date ideas.",
+      "The cute way you hide your face when you laugh too hard.",
+      "The shared glances we have across a crowded room that only we understand.",
+      "The warmth of your hand tracing my collarbone.",
+      "Your incredibly pure heart that sees the absolute best in everyone.",
+      "The way you play with your hair when you're feeling a little nervous.",
+      "How you always remind me to drink water and take care of myself.",
+      "The adorable pout you make when you don't get your way.",
+      "Your soft voice when you are talking to babies or puppies.",
+      "The incredible, magical chemistry we shared from the very first day.",
+      "The way you trust me with your deepest, most private thoughts.",
+      "How you look at me with so much warmth in your eyes.",
+      "The cute way you try to cover your yawns.",
+      "Your love for aesthetic, tiny glass jars and decorative things.",
+      "The comforting rhythm of your heart when I lay my head on your chest.",
+      "How you are always down for late-night drives to nowhere.",
+      "Your quiet strength that helps me stay grounded through everything.",
+      "The adorable way you get startled by loud, sudden noises.",
+      "How you keep all of my secrets safe inside your heart.",
+      "The elegant, delicate way you walk and carry yourself.",
+      "The sweet, lingering scent of your favorite perfume on my clothes.",
+      "How you make our 3 years together feel like a beautiful, fleeting breeze.",
+      "The way you look when you're completely lost in a good book or movie.",
+      "Your comforting touch on my back when I am feeling stressed.",
+      "The unique, beautiful bond that we have spent 1,095 days building.",
+      "How you love hard, deeply, and without any reservations.",
+      "The cute little snort that slips out when you laugh uncontrollably.",
+      "Your exquisite taste in music and movies.",
+      "The way you look at the stars with pure, childlike wonder.",
+      "How you always know exactly what to say to calm my chaotic mind.",
+      "Your cute obsession with taking aesthetic photos of everything.",
+      "The way you hold my hand in your sleep.",
+      "Your incredible, warm, and beautiful smile that melts my heart every single time.",
+      "Simply because you are you—my beautiful, perfect Jaimu.",
+      "The fact that my heart chose you, and will keep choosing you, forever and ever."
+    ];
+
+    // ==========================================
+    // 100 UNIQUE DAILY TEASER MESSAGES (CHAPTER 8)
+    // ==========================================
+    const TEASER_MESSAGES_100 = [
+      "You're getting closer to the secret, Jaimu.",
+      "I hope this little window is making you smile today.",
+      "Patience looks incredibly beautiful on you.",
+      "Are you still trying to guess what I've been planning?",
+      "A masterpiece takes time. Keep waiting patiently.",
+      "You have absolutely no idea what is coming for you.",
+      "Keep wondering, keep smiling, and keep waiting.",
+      "19 July is slowly, beautifully creeping closer.",
+      "Every single detail is being handcrafted just for you.",
+      "Did you try to hack the vault again? Nice try!",
+      "Something magical is brewing in the background.",
+      "I can't wait to see your face when the day finally arrives.",
+      "The countdown is ticking, and my excitement is growing.",
+      "Are you feeling curious yet? That's the plan.",
+      "You are the muse behind every single line of code here.",
+      "Hold your curiosity just a little bit longer.",
+      "A beautiful mystery is the sweetest form of anticipation.",
+      "I am secretly working behind the scenes. No peeking!",
+      "Your smile on July 19th will make all of this worth it.",
+      "We are 99% there. The final 1% is pure magic.",
+      "Do you think you can guess the PIN? I doubt it.",
+      "Count the days, not the hours. The magic is coming.",
+      "I am wrapping up something infinitely beautiful for you.",
+      "Your heart isn't ready for what I have planned.",
+      "Every day is a step closer to your biggest smile.",
+      "Don't worry, the wait is part of the beautiful journey.",
+      "Kuch to chal raha hai... and it's spectacular.",
+      "I love keeping you on your toes like this.",
+      "The stars are aligning for your special day.",
+      "I've left some hidden clues around. Did you find them?",
+      "A little mystery keeps the love exciting, doesn't it?",
+      "I promise you, the wait is going to be worth every second.",
+      "Your curiosity is my absolute favorite thing right now.",
+      "Just a little reminder: you are deeply, deeply loved.",
+      "The secret laboratory is running at full capacity today.",
+      "Are you still staring at the countdown?",
+      "I wish I could tell you, but where is the fun in that?",
+      "My heart does a little dance every time you check this page.",
+      "The countdown is a promise of something unforgettable.",
+      "Keep this tab open, because the magic is updating constantly.",
+      "The best things in life are always worth waiting for.",
+      "Are you smiling right now? Mission accomplished for today.",
+      "My secret plans are securely locked in my heart.",
+      "No shortcuts to July 19th, Jaimu!",
+      "I can hear your beautiful laugh from here as you read this.",
+      "You are my absolute favorite distraction.",
+      "I spent today adding a few more sparkles to your surprise.",
+      "The vault remains sealed. Nice try though!",
+      "Our story is my favorite story ever written.",
+      "The countdown digits are slowly dancing their way to the 19th.",
+      "I am holding onto the secret like a precious treasure.",
+      "Your birthday is going to be incredibly special, just like you.",
+      "Is your heart beating a little faster with curiosity?",
+      "I love you more than all the stars in this dark sky background.",
+      "Just keep breathing and dreaming about what's to come.",
+      "I’ve spent months planning this. It's almost time.",
+      "The secret laboratory reports that progress is outstanding.",
+      "You're the center of my entire universe.",
+      "A premium girl deserves a premium, magical surprise.",
+      "Can you feel the love radiating through your screen?",
+      "Don't press the golden gift box too many times!",
+      "Are you searching for easter eggs? I left plenty.",
+      "My favorite view is you being absolutely clueless about my plans.",
+      "Today is another day of keeping secrets for you.",
+      "I've written your name in the stars of this digital sky.",
+      "Your patience is highly appreciated by the management (me).",
+      "The countdown has a heartbeat of its own.",
+      "Are you counting down the days with me?",
+      "A beautiful storm of happiness is heading your way.",
+      "I’ve locked my love for you in an unhackable vault.",
+      "Your smile is the only reward I am working for.",
+      "I can't stop smiling thinking about your reaction.",
+      "You're the prettiest mystery I've ever had the joy of solving.",
+      "July 19th will write a beautiful new page in our book.",
+      "Are you feeling the anticipation building up?",
+      "Every line of code here was written while thinking of you.",
+      "We are closer today than we were yesterday.",
+      "My heart is the secret lab, and you are the project.",
+      "Don't let the curiosity drive you too crazy!",
+      "Our 3 years together have led to this beautiful milestone.",
+      "Are you feeling loved? Because you are, incredibly so.",
+      "I am whispering sweet secrets to the stars for you.",
+      "The vault PIN isn't your birthday, by the way!",
+      "I am weaving magic out of thin air just for you.",
+      "Keep holding my hand through this digital countdown.",
+      "I hope your day is as bright and beautiful as your smile.",
+      "The universe is conspiring to make your birthday perfect.",
+      "There's a secret code hidden where you least exp
