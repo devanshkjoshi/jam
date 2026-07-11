@@ -38,14 +38,16 @@
       color: var(--soft-white);
       font-family: var(--font-sans);
       width: 100vw;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
       position: relative;
     }
 
     /* --- BACKGROUND CANVAS & GLOWS --- */
     #bg-canvas {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
@@ -55,7 +57,7 @@
     }
 
     .ambient-glow {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
@@ -67,11 +69,17 @@
     }
 
     .screen-border {
-      position: absolute;
-      inset: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      position: fixed;
+      inset: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
       pointer-events: none;
       z-index: 10;
+    }
+
+    @media (min-width: 640px) {
+      .screen-border {
+        inset: 20px;
+      }
     }
 
     /* --- GLASSMORPHISM STYLES --- */
@@ -100,21 +108,23 @@
     .main-container {
       position: relative;
       width: 100%;
-      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 5;
-      padding: 24px;
+      padding: 32px 20px;
     }
 
     .screen {
-      position: absolute;
+      position: relative;
       width: 100%;
       max-width: 900px;
       opacity: 0;
       transform: scale(0.97) translateY(10px);
       pointer-events: none;
+      display: none;
       transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
                   transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -123,19 +133,27 @@
       opacity: 1;
       transform: scale(1) translateY(0);
       pointer-events: auto;
+      display: block;
     }
 
-    /* --- LOCK SCREEN SPECIFIC --- */
+    /* --- LOCK SCREEN --- */
     .lock-box {
+      width: 100%;
       max-width: 440px;
       margin: 0 auto;
       text-align: center;
-      padding: 40px;
+      padding: 32px 24px;
+    }
+
+    @media (min-width: 640px) {
+      .lock-box {
+        padding: 40px;
+      }
     }
 
     .lock-icon {
-      font-size: 40px;
-      margin-bottom: 20px;
+      font-size: 36px;
+      margin-bottom: 16px;
       color: var(--rose-gold);
     }
 
@@ -146,17 +164,23 @@
     }
 
     .lock-box h1 {
-      font-size: 32px;
+      font-size: 26px;
       margin-bottom: 8px;
     }
 
+    @media (min-width: 640px) {
+      .lock-box h1 {
+        font-size: 32px;
+      }
+    }
+
     .lock-subtitle {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 300;
       color: rgba(255, 255, 255, 0.6);
       font-style: italic;
       line-height: 1.6;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
     .input-wrapper {
@@ -168,9 +192,9 @@
       background: rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 50px;
-      padding: 16px 24px;
+      padding: 14px 20px;
       text-align: center;
-      font-size: 18px;
+      font-size: 16px;
       letter-spacing: 0.25em;
       color: var(--warm-gold);
       font-family: var(--font-sans);
@@ -195,8 +219,8 @@
       color: #000;
       border: none;
       border-radius: 50px;
-      padding: 16px;
-      font-size: 16px;
+      padding: 14px;
+      font-size: 15px;
       font-weight: 500;
       letter-spacing: 0.05em;
       cursor: pointer;
@@ -209,11 +233,6 @@
 
     .btn-primary:hover {
       opacity: 0.9;
-      transform: translateY(-1px);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
     }
 
     .heart-svg {
@@ -223,8 +242,8 @@
     }
 
     .hint-container {
-      margin-top: 24px;
-      padding-top: 20px;
+      margin-top: 20px;
+      padding-top: 16px;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
       text-align: center;
       opacity: 0;
@@ -240,19 +259,18 @@
 
     .error-msg {
       color: var(--soft-pink);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .hint-desc {
       color: rgba(255, 255, 255, 0.4);
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.6;
       font-style: italic;
     }
 
-    /* Error Shake animation */
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       15%, 45%, 75% { transform: translateX(-8px); }
@@ -264,7 +282,7 @@
       border-color: rgba(239, 68, 68, 0.4) !important;
     }
 
-    /* --- UNLOCKING TRANSITION SCREEN --- */
+    /* --- UNLOCKING SCREEN --- */
     #unlocking-screen {
       position: fixed;
       inset: 0;
@@ -279,12 +297,19 @@
 
     .heart-pulse-glow {
       position: absolute;
-      width: 380px;
-      height: 380px;
+      width: 280px;
+      height: 280px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(214, 175, 138, 0.15) 0%, rgba(248, 217, 229, 0.02) 70%, transparent 100%);
       pointer-events: none;
       animation: pulse-ring 2.2s ease-in-out infinite;
+    }
+
+    @media (min-width: 640px) {
+      .heart-pulse-glow {
+        width: 380px;
+        height: 380px;
+      }
     }
 
     @keyframes pulse-ring {
@@ -296,73 +321,105 @@
     }
 
     .welcome-text {
-      font-size: 48px;
-      margin-bottom: 16px;
+      font-size: 36px;
+      margin-bottom: 12px;
       z-index: 10;
     }
 
-    /* --- SELECTION HUB SCREEN --- */
+    @media (min-width: 640px) {
+      .welcome-text {
+        font-size: 48px;
+      }
+    }
+
+    /* --- SELECTION HUB --- */
     .selection-header {
       text-align: center;
-      margin-bottom: 48px;
+      margin-bottom: 32px;
+    }
+
+    @media (min-width: 640px) {
+      .selection-header {
+        margin-bottom: 48px;
+      }
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 16px;
+      padding: 6px 14px;
       border-radius: 50px;
       border: 1px solid rgba(255, 255, 255, 0.05);
       background: rgba(255, 255, 255, 0.02);
-      font-size: 11px;
+      font-size: 10px;
       color: var(--rose-gold);
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .selection-header h1 {
-      font-size: 52px;
-      margin-bottom: 12px;
+      font-size: 38px;
+      margin-bottom: 8px;
       background: linear-gradient(180deg, var(--soft-white) 30%, rgba(255, 255, 255, 0.5) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
+    @media (min-width: 640px) {
+      .selection-header h1 {
+        font-size: 52px;
+      }
+    }
+
     .selection-header p {
-      font-size: 14px;
+      font-size: 12px;
       color: rgba(255, 255, 255, 0.5);
       letter-spacing: 0.15em;
+    }
+
+    @media (min-width: 640px) {
+      .selection-header p {
+        font-size: 14px;
+      }
     }
 
     .cards-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 20px;
       width: 100%;
       max-width: 800px;
       margin: 0 auto;
     }
 
-    @media(min-width: 640px) {
+    @media (min-width: 640px) {
       .cards-grid {
         grid-template-columns: 1fr 1fr;
+        gap: 32px;
       }
     }
 
     .song-card {
-      padding: 32px;
+      padding: 24px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 260px;
+      min-height: 220px;
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    @media (min-width: 640px) {
+      .song-card {
+        padding: 32px;
+        min-height: 260px;
+      }
+    }
+
     .song-card:hover {
-      transform: translateY(-6px) scale(1.01);
+      transform: translateY(-4px) scale(1.01);
       border-color: rgba(212, 175, 138, 0.25);
       box-shadow: 0 15px 40px rgba(212, 175, 138, 0.06);
     }
@@ -371,15 +428,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
 
     .lang-badge {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 4px 10px;
+      padding: 4px 8px;
       border-radius: 4px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.05);
@@ -387,9 +444,15 @@
     }
 
     .song-card h3 {
-      font-size: 28px;
-      margin-bottom: 8px;
+      font-size: 24px;
+      margin-bottom: 6px;
       transition: color 0.3s ease;
+    }
+
+    @media (min-width: 640px) {
+      .song-card h3 {
+        font-size: 28px;
+      }
     }
 
     .song-card:hover h3 {
@@ -397,34 +460,29 @@
     }
 
     .song-card p {
-      font-size: 13px;
+      font-size: 12px;
       color: rgba(255, 255, 255, 0.4);
       font-style: italic;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     .song-card-bottom {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 32px;
+      margin-top: 24px;
     }
 
     .listen-label {
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.3);
-      transition: color 0.3s ease;
-    }
-
-    .song-card:hover .listen-label {
-      color: rgba(255, 255, 255, 0.6);
     }
 
     .play-icon-circle {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -440,30 +498,32 @@
       color: #000;
     }
 
-    /* --- MUSIC PLAYER SCREEN --- */
+    /* --- MUSIC PLAYER --- */
     .player-layout {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 24px;
+      padding-top: 40px; /* Space for the back button */
     }
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
       .player-layout {
         flex-direction: row;
         align-items: center;
         gap: 60px;
+        padding-top: 0;
       }
     }
 
     .back-btn {
       position: absolute;
-      top: -64px;
+      top: -12px;
       left: 0;
       background: none;
       border: none;
       color: rgba(255, 255, 255, 0.4);
-      font-size: 12px;
+      font-size: 11px;
       letter-spacing: 0.05em;
       cursor: pointer;
       display: flex;
@@ -471,6 +531,13 @@
       gap: 4px;
       padding: 8px 0;
       transition: color 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .back-btn {
+        top: -64px;
+        font-size: 12px;
+      }
     }
 
     .back-btn:hover {
@@ -485,7 +552,7 @@
       transform: translateX(-4px);
     }
 
-    /* Left Stage: Vinyl Graphic */
+    /* Vinyl Stage (Relative Wrapper Fix) */
     .vinyl-stage {
       flex: 1;
       display: flex;
@@ -494,47 +561,76 @@
       position: relative;
     }
 
+    .vinyl-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 310px;
+    }
+
     .vinyl-ambient {
       position: absolute;
-      width: 280px;
-      height: 280px;
+      width: 80%;
+      height: 80%;
       border-radius: 50%;
       background: var(--rose-gold);
       filter: blur(45px);
-      opacity: 0.15;
+      opacity: 0.12;
       pointer-events: none;
       transition: background 1s ease;
     }
 
+    /* Pinning the Needle relative to the disk wrapper so it never offsets on resize */
     .needle-arm {
       position: absolute;
       z-index: 30;
-      top: 0;
-      right: 22%;
-      transform-origin: 45px 15px;
+      top: -15px;
+      right: 15%;
+      width: 70px;
+      height: 105px;
+      transform-origin: 31.5px 10.5px;
       transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
       transform: rotate(-15deg);
     }
 
+    @media (min-width: 640px) {
+      .needle-arm {
+        width: 100px;
+        height: 150px;
+        top: -20px;
+        right: 10%;
+        transform-origin: 45px 15px;
+      }
+    }
+
     .needle-playing {
-      transform: rotate(18deg);
+      transform: rotate(16deg);
     }
 
     .vinyl-disc {
       position: relative;
-      width: 260px;
-      height: 260px;
+      width: 220px;
+      height: 220px;
       border-radius: 50%;
       background: #111;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    @media(min-width: 640px) {
+    @media (min-width: 400px) {
+      .vinyl-disc {
+        width: 250px;
+        height: 250px;
+      }
+    }
+
+    @media (min-width: 640px) {
       .vinyl-disc {
         width: 310px;
         height: 310px;
@@ -557,8 +653,8 @@
 
     .vinyl-center-label {
       position: absolute;
-      width: 90px;
-      height: 90px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       background: #161616;
       border: 1px solid rgba(0,0,0,0.6);
@@ -570,8 +666,15 @@
       z-index: 10;
     }
 
+    @media (min-width: 640px) {
+      .vinyl-center-label {
+        width: 90px;
+        height: 90px;
+      }
+    }
+
     .vinyl-center-label span:first-child {
-      font-size: 10px;
+      font-size: 8px;
       font-weight: bold;
       color: var(--rose-gold);
       letter-spacing: 0.15em;
@@ -579,14 +682,19 @@
       margin-bottom: 2px;
     }
 
+    @media (min-width: 640px) {
+      .vinyl-center-label span:first-child {
+        font-size: 10px;
+      }
+    }
+
     .vinyl-center-label span:last-child {
-      font-size: 8px;
+      font-size: 7px;
       color: rgba(255,255,255,0.3);
       letter-spacing: 0.1em;
       text-transform: uppercase;
     }
 
-    /* Spanning Animation */
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
@@ -596,44 +704,65 @@
       animation: spin 18s linear infinite;
     }
 
-    /* Right Stage: Controls & Metadata */
+    /* Player Controls & Labels */
     .player-details {
       flex: 1;
       width: 100%;
     }
 
     .meta-subtitle {
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: 0.2em;
       color: var(--rose-gold);
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: block;
     }
 
     .player-details h2 {
-      font-size: 38px;
-      margin-bottom: 8px;
+      font-size: 28px;
+      margin-bottom: 6px;
       line-height: 1.2;
     }
 
-    .meta-desc {
-      font-size: 14px;
-      color: rgba(255,255,255,0.5);
-      font-weight: 300;
-      margin-bottom: 32px;
+    @media (min-width: 640px) {
+      .player-details h2 {
+        font-size: 38px;
+      }
     }
 
-    /* Waveform visualizer */
+    .meta-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    @media (min-width: 640px) {
+      .meta-desc {
+        font-size: 14px;
+        margin-bottom: 32px;
+      }
+    }
+
+    /* Visualizer Fluid Scale */
     .wave-visualizer {
-      height: 40px;
+      height: 36px;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 3px;
-      margin-bottom: 32px;
-      padding: 0 4px;
+      gap: 2px;
+      margin-bottom: 24px;
+      padding: 0;
+    }
+
+    @media (min-width: 640px) {
+      .wave-visualizer {
+        height: 40px;
+        gap: 3px;
+        margin-bottom: 32px;
+      }
     }
 
     .wave-bar {
@@ -645,20 +774,20 @@
       transition: height 0.1s ease;
     }
 
-    /* Custom range input */
+    /* Sliders and Timers */
     .progress-stage {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .slider-container {
       position: relative;
       width: 100%;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .progress-slider {
       width: 100%;
-      height: 4px;
+      height: 3px;
       background: rgba(255,255,255,0.1);
       border-radius: 10px;
       outline: none;
@@ -668,8 +797,8 @@
 
     .progress-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      height: 12px;
-      width: 12px;
+      height: 10px;
+      width: 10px;
       border-radius: 50%;
       background: var(--rose-gold);
       box-shadow: 0 0 10px rgba(212, 175, 138, 0.6);
@@ -683,18 +812,25 @@
     .time-indicators {
       display: flex;
       justify-content: space-between;
-      font-size: 11px;
+      font-size: 10px;
       font-family: monospace;
       color: rgba(255,255,255,0.4);
       letter-spacing: 0.1em;
     }
 
-    /* Controls Tray */
+    /* Interactive Tray Layout Optimization */
     .controls-tray {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
       gap: 16px;
+    }
+
+    @media (min-width: 500px) {
+      .controls-tray {
+        flex-direction: row;
+        justify-content: space-between;
+      }
     }
 
     .switch-lang-btn {
@@ -702,11 +838,20 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
       padding: 10px 18px;
       border-radius: 50px;
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: 0.08em;
       color: rgba(255,255,255,0.7);
       cursor: pointer;
+      width: 100%;
+      max-width: 200px;
+      text-align: center;
       transition: all 0.3s ease;
+    }
+
+    @media (min-width: 500px) {
+      .switch-lang-btn {
+        width: auto;
+      }
     }
 
     .switch-lang-btn:hover {
@@ -721,8 +866,8 @@
     }
 
     .btn-circle {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.05);
@@ -740,8 +885,8 @@
     }
 
     .btn-play-pause {
-      width: 60px;
-      height: 60px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       background: linear-gradient(90deg, var(--rose-gold), var(--warm-gold));
       color: #000;
@@ -754,12 +899,15 @@
       transition: all 0.3s ease;
     }
 
-    .btn-play-pause:hover {
-      transform: scale(1.05);
+    @media (min-width: 640px) {
+      .btn-play-pause {
+        width: 60px;
+        height: 60px;
+      }
     }
 
-    .btn-play-pause:active {
-      transform: scale(0.96);
+    .btn-play-pause:hover {
+      transform: scale(1.05);
     }
 
     .volume-stage {
@@ -769,19 +917,13 @@
     }
 
     .volume-slider {
-      width: 70px;
+      width: 80px;
       height: 3px;
       background: rgba(255,255,255,0.1);
       outline: none;
       -webkit-appearance: none;
       border-radius: 10px;
       cursor: pointer;
-    }
-
-    @media(min-width: 480px) {
-      .volume-slider {
-        width: 90px;
-      }
     }
 
     .volume-slider::-webkit-slider-thumb {
@@ -792,17 +934,18 @@
       background: var(--rose-gold);
     }
 
-    /* --- ENDING SCREEN --- */
+    /* --- ENDING VIEW --- */
     .ending-box {
+      width: 100%;
       max-width: 500px;
       margin: 0 auto;
       text-align: center;
     }
 
     .ending-heart {
-      font-size: 36px;
+      font-size: 32px;
       color: rgba(239, 68, 68, 0.7);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       animation: heart-beat 1.6s infinite ease-in-out;
     }
 
@@ -813,20 +956,28 @@
 
     .ending-letter {
       font-family: var(--font-serif);
-      font-size: 24px;
-      line-height: 1.8;
+      font-size: 20px;
+      line-height: 1.7;
       font-weight: 300;
       font-style: italic;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
+    }
+
+    @media (min-width: 640px) {
+      .ending-letter {
+        font-size: 24px;
+        line-height: 1.8;
+        margin-bottom: 40px;
+      }
     }
 
     .ending-signature {
-      margin-bottom: 48px;
+      margin-bottom: 40px;
     }
 
     .ending-signature span:first-child {
       display: block;
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: 0.25em;
       color: rgba(212, 175, 138, 0.7);
       text-transform: uppercase;
@@ -835,7 +986,7 @@
 
     .ending-signature span:last-child {
       font-family: var(--font-serif);
-      font-size: 24px;
+      font-size: 22px;
       font-style: italic;
       color: var(--warm-gold);
     }
@@ -847,8 +998,8 @@
       background: rgba(255,255,255,0.02);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 50px;
-      padding: 14px 28px;
-      font-size: 14px;
+      padding: 12px 24px;
+      font-size: 13px;
       color: var(--rose-gold);
       letter-spacing: 0.05em;
       cursor: pointer;
@@ -876,15 +1027,15 @@
 </head>
 <body>
 
-  <!-- Background Layer System -->
+  <!-- Background Canvas, Atmosphere Glow, and Screen Frame -->
   <canvas id="bg-canvas"></canvas>
   <div class="ambient-glow"></div>
   <div class="screen-border"></div>
 
-  <!-- UI Views Main Pipeline -->
+  <!-- Central Interface Port -->
   <div class="main-container">
 
-    <!-- VIEW 1: LOCK SCREEN -->
+    <!-- VIEW 1: PASSWORD WALL -->
     <div id="lock-screen" class="screen active">
       <div class="glass-card lock-box" id="lock-card">
         <div class="lock-icon">🔒</div>
@@ -920,14 +1071,14 @@
       </div>
     </div>
 
-    <!-- VIEW 2: UNLOCKING TRANSITION STAGE -->
+    <!-- VIEW 2: UNLOCK SUCCESSFUL PULSING SCREEN -->
     <div id="unlocking-screen" class="hidden">
       <div class="heart-pulse-glow"></div>
       <div class="welcome-text serif-title italic">Welcome Home</div>
       <div style="font-size: 24px; color: var(--rose-gold);">❤️</div>
     </div>
 
-    <!-- VIEW 3: SELECTION HUB SCREEN -->
+    <!-- VIEW 3: DUAL SELECTION PORTAL -->
     <div id="selection-screen" class="screen">
       <div class="selection-header">
         <div class="badge">
@@ -941,11 +1092,11 @@
       </div>
 
       <div class="cards-grid">
-        <!-- Gujarati Option -->
+        <!-- Gujarati Version -->
         <div class="glass-card song-card" onclick="app.selectTrack('gujarati')">
           <div class="song-card-top">
             <span class="lang-badge">🇮🇳 Gujarati</span>
-            <svg style="width: 20px; height: 20px; opacity: 0.3;" fill="currentColor" viewBox="0 0 24 24">
+            <svg style="width: 18px; height: 18px; opacity: 0.3;" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
             </svg>
           </div>
@@ -956,18 +1107,18 @@
           <div class="song-card-bottom">
             <span class="listen-label">Listen to Melody</span>
             <div class="play-icon-circle">
-              <svg style="width: 14px; height: 14px; fill: currentColor; margin-left: 2px;" viewBox="0 0 24 24">
+              <svg style="width: 12px; height: 12px; fill: currentColor; margin-left: 2px;" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z"/>
               </svg>
             </div>
           </div>
         </div>
 
-        <!-- English Option -->
+        <!-- English Version -->
         <div class="glass-card song-card" onclick="app.selectTrack('english')">
           <div class="song-card-top">
             <span class="lang-badge">🌍 English</span>
-            <svg style="width: 20px; height: 20px; opacity: 0.3;" fill="currentColor" viewBox="0 0 24 24">
+            <svg style="width: 18px; height: 18px; opacity: 0.3;" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
             </svg>
           </div>
@@ -978,7 +1129,7 @@
           <div class="song-card-bottom">
             <span class="listen-label">Listen to Melody</span>
             <div class="play-icon-circle">
-              <svg style="width: 14px; height: 14px; fill: currentColor; margin-left: 2px;" viewBox="0 0 24 24">
+              <svg style="width: 12px; height: 12px; fill: currentColor; margin-left: 2px;" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z"/>
               </svg>
             </div>
@@ -987,11 +1138,11 @@
       </div>
     </div>
 
-    <!-- VIEW 4: MASTER MUSIC PLAYER -->
+    <!-- VIEW 4: MUSIC PLAYER INTERFACE -->
     <div id="player-screen" class="screen">
       <div class="player-layout">
         
-        <!-- Back trigger -->
+        <!-- Floating Back Trigger -->
         <button class="back-btn" onclick="app.setScreen('selection')">
           <svg style="width: 16px; height: 16px; transform: rotate(180deg); fill: currentColor;" viewBox="0 0 24 24">
             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
@@ -999,39 +1150,42 @@
           Back to Choice
         </button>
 
-        <!-- Left Column: Rotating Vinyl -->
+        <!-- Left Stage: Interactive Responsive Vinyl Disc -->
         <div class="vinyl-stage">
-          <div class="vinyl-ambient" id="player-ambient"></div>
-          
-          <div class="needle-arm" id="player-needle">
-            <svg width="100" height="150" viewBox="0 0 100 150" fill="none">
-              <circle cx="45" cy="15" r="10" fill="#222" stroke="#444" stroke-width="2" />
-              <path d="M45 15 L50 80 L78 120" stroke="#888" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-              <rect x="73" y="118" width="10" height="14" rx="2" transform="rotate(30 73 118)" fill="var(--warm-gold)" />
-            </svg>
-          </div>
+          <div class="vinyl-wrapper">
+            <div class="vinyl-ambient" id="player-ambient"></div>
+            
+            <div class="needle-arm" id="player-needle">
+              <!-- Inline SVG needle scales with its parent wrapper perfectly -->
+              <svg viewBox="0 0 100 150" fill="none" style="width: 100%; height: 100%;">
+                <circle cx="45" cy="15" r="10" fill="#222" stroke="#444" stroke-width="2" />
+                <path d="M45 15 L50 80 L78 120" stroke="#888" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <rect x="73" y="118" width="10" height="14" rx="2" transform="rotate(30 73 118)" fill="var(--warm-gold)" />
+              </svg>
+            </div>
 
-          <div class="vinyl-disc" id="vinyl-disc">
-            <div class="vinyl-grooves"></div>
-            <div class="vinyl-center-label">
-              <span id="label-lang">Language</span>
-              <span>Devansh</span>
+            <div class="vinyl-disc" id="vinyl-disc">
+              <div class="vinyl-grooves"></div>
+              <div class="vinyl-center-label">
+                <span id="label-lang">Language</span>
+                <span>Devansh</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Right Column: Media Controls -->
+        <!-- Right Stage: Media Tracking Controls -->
         <div class="player-details">
           <span class="meta-subtitle">Now playing melody</span>
           <h2 id="player-title" class="serif-title">Song Title</h2>
           <p id="player-subtitle" class="meta-desc">Subtitle goes here</p>
 
-          <!-- Wave Visualizer Simulation -->
+          <!-- Interactive Dynamic Audio Visualizer -->
           <div class="wave-visualizer" id="wave-container">
-            <!-- Programmatically rendered lines -->
+            <!-- Programmatically rendered dynamically in script -->
           </div>
 
-          <!-- Slider Tracker -->
+          <!-- Progress Sliders -->
           <div class="progress-stage">
             <div class="slider-container">
               <input 
@@ -1050,7 +1204,7 @@
             </div>
           </div>
 
-          <!-- Tray Deck -->
+          <!-- Controls Tray -->
           <div class="controls-tray">
             <button class="switch-lang-btn" id="lang-switch-btn" onclick="app.toggleLanguage()">
               Switch Version
@@ -1064,7 +1218,6 @@
               </button>
 
               <button class="btn-play-pause" id="play-pause-btn" onclick="app.togglePlay()">
-                <!-- Dynamic inside js -->
                 <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24" id="play-svg">
                   <path d="M8 5v14l11-7z"/>
                 </svg>
@@ -1074,7 +1227,7 @@
               </button>
             </div>
 
-            <!-- Volume -->
+            <!-- Volume Slider Control -->
             <div class="volume-stage">
               <button class="btn-circle" style="width:32px; height:32px; border:none;" onclick="app.toggleMute()" id="mute-btn">
                 <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24" id="vol-on-svg">
@@ -1100,7 +1253,7 @@
       </div>
     </div>
 
-    <!-- VIEW 5: ENDING HERO SCRIPTS -->
+    <!-- VIEW 5: CINEMATIC CONCLUSION CARD -->
     <div id="ending-screen" class="screen">
       <div class="ending-box">
         <div class="ending-heart">❤️</div>
@@ -1126,7 +1279,7 @@
 
   </div>
 
-  <!-- --- VANILLA JS ARCHITECTURE --- -->
+  <!-- --- CORE ARCHITECTURE SCRIPTS --- -->
   <script>
     // Asset Map Configuration
     const TRACKS = {
@@ -1146,7 +1299,7 @@
       }
     };
 
-    // Main Controller State Machine
+    // Controller Module
     class ExperienceController {
       constructor() {
         this.currentScreen = 'lock';
@@ -1157,10 +1310,10 @@
         this.duration = 180;
         this.currentTime = 0;
 
-        // Create HTML5 Core Audio element
+        // Custom HTML5 Audio Integration
         this.audio = new Audio();
         
-        // Element Hooks
+        // Element bindings
         this.screens = {
           lock: document.getElementById('lock-screen'),
           unlocking: document.getElementById('unlocking-screen'),
@@ -1175,13 +1328,20 @@
       }
 
       initEventListeners() {
-        // Track mouse movement for glow parallax variable injection
-        window.addEventListener('mousemove', (e) => {
-          document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
-          document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+        // Tracker for glow parallax variables
+        const updateGlowCoords = (x, y) => {
+          document.documentElement.style.setProperty('--mouse-x', `${x}px`);
+          document.documentElement.style.setProperty('--mouse-y', `${y}px`);
+        };
+
+        window.addEventListener('mousemove', (e) => updateGlowCoords(e.clientX, e.clientY));
+        window.addEventListener('touchmove', (e) => {
+          if (e.touches && e.touches[0]) {
+            updateGlowCoords(e.touches[0].clientX, e.touches[0].clientY);
+          }
         });
 
-        // Lock submission
+        // Passcode Submission checks
         const passInput = document.getElementById('password-input');
         const unlockBtn = document.getElementById('unlock-btn');
         
@@ -1206,7 +1366,7 @@
           if (e.key === 'Enter') submitPass();
         });
 
-        // HTML5 Audio Logic binds
+        // HTML5 Audio Event bindings
         this.audio.addEventListener('timeupdate', () => {
           this.currentTime = this.audio.currentTime;
           this.updatePlaybackUI();
@@ -1223,7 +1383,7 @@
           this.updatePlaybackUI();
         });
 
-        // Range Sliders interactions
+        // Range Sliders UI controls
         const progressRange = document.getElementById('progress-range');
         progressRange.addEventListener('input', (e) => {
           const pct = parseFloat(e.target.value);
@@ -1241,14 +1401,12 @@
       }
 
       setScreen(screenKey) {
-        // Handle physical audio pause constraints if backing out
         if (screenKey !== 'player' && screenKey !== 'ending' && this.isPlaying) {
           this.audio.pause();
           this.isPlaying = false;
           this.updatePlaybackUI();
         }
 
-        // Deactivate active screens cleanly
         Object.keys(this.screens).forEach(key => {
           this.screens[key].classList.remove('active');
           if (key === 'unlocking') {
@@ -1280,7 +1438,7 @@
         }, 3500);
       }
 
-      // Procedural Web Audio API Heartbeat Synthesis
+      // Procedural Web Audio API low-frequency double beat
       synthesizeHeartbeat() {
         try {
           const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -1317,7 +1475,7 @@
           beat(now + 0.9, 55, 0.9);
           beat(now + 1.12, 50, 0.7);
         } catch (e) {
-          console.warn("Heartbeat synthesis was blocked or unsupported:", e);
+          console.warn("Heartbeat synthesiser blocked:", e);
         }
       }
 
@@ -1325,26 +1483,23 @@
         this.activeTrackKey = key;
         const track = TRACKS[key];
 
-        // UI Metadata update
         document.getElementById('player-title').innerText = track.title;
         document.getElementById('player-subtitle').innerText = track.subtitle;
         document.getElementById('label-lang').innerText = track.language;
         document.getElementById('player-ambient').style.backgroundColor = track.themeColor;
 
-        // Source Swap
         this.audio.src = track.src;
         this.audio.volume = this.isMuted ? 0 : this.volume;
         
         this.setScreen('player');
         
-        // Autoplay play back trigger
         this.audio.play()
           .then(() => {
             this.isPlaying = true;
             this.updatePlaybackUI();
           })
           .catch((err) => {
-            console.warn("Audio autoplay blocked initial lock. Standing by for play button click:", err);
+            console.warn("Autoplay blocked. Tap play manually:", err);
             this.isPlaying = false;
             this.updatePlaybackUI();
           });
@@ -1359,7 +1514,7 @@
             .then(() => {
               this.isPlaying = true;
             })
-            .catch(err => console.error("Could not resume play state:", err));
+            .catch(err => console.error("Could not resume:", err));
         }
         this.updatePlaybackUI();
       }
@@ -1390,7 +1545,6 @@
       }
 
       updatePlaybackUI() {
-        // Toggle play icon layouts
         const playSvg = document.getElementById('play-svg');
         const pauseSvg = document.getElementById('pause-svg');
         const needle = document.getElementById('player-needle');
@@ -1408,7 +1562,6 @@
           disc.classList.remove('spinning');
         }
 
-        // Toggle mute icon layouts
         const volOn = document.getElementById('vol-on-svg');
         const volOff = document.getElementById('vol-off-svg');
         if (this.isMuted) {
@@ -1419,7 +1572,6 @@
           volOff.style.display = 'none';
         }
 
-        // Track Sliders value set
         const pct = (this.currentTime / this.duration) * 100 || 0;
         document.getElementById('progress-range').value = pct;
         document.getElementById('time-current').innerText = this.formatTime(this.currentTime);
@@ -1435,14 +1587,14 @@
       generateVisualizerBars() {
         const container = document.getElementById('wave-container');
         container.innerHTML = '';
-        for (let i = 0; i < 48; i++) {
+        const barCount = 48;
+        for (let i = 0; i < barCount; i++) {
           const bar = document.createElement('div');
           bar.className = 'wave-bar';
           container.appendChild(bar);
         }
       }
 
-      // Procedural Canvas Animation System
       initCanvasEngine() {
         const canvas = document.getElementById('bg-canvas');
         if (!canvas) return;
@@ -1458,7 +1610,6 @@
         });
 
         const particles = [];
-        
         const createParticle = (init = false) => {
           return {
             x: Math.random() * w,
@@ -1472,13 +1623,11 @@
           };
         };
 
-        // Populate init particles
         for (let i = 0; i < 60; i++) {
           particles.push(createParticle(true));
         }
 
         const render = () => {
-          // Dynamic Phase Determination based on progression metrics
           const progressPercent = (this.currentTime / this.duration) * 100 || 0;
           let phase = 'stars';
           
@@ -1495,7 +1644,6 @@
 
           ctx.clearRect(0, 0, w, h);
 
-          // Clear Background Solid base
           let gradient = ctx.createRadialGradient(w/2, h/2, 10, w/2, h/2, Math.max(w, h));
           if (phase === 'sunrise') {
             gradient.addColorStop(0, "#141118");
@@ -1509,7 +1657,6 @@
           ctx.fillStyle = gradient;
           ctx.fillRect(0, 0, w, h);
 
-          // Phase: Sunrise ambient glow block
           if (phase === 'sunrise') {
             let sunGlow = ctx.createRadialGradient(w / 2, h, 50, w / 2, h, w * 0.6);
             sunGlow.addColorStop(0, "rgba(232, 197, 106, 0.12)");
@@ -1519,11 +1666,9 @@
             ctx.fillRect(0, 0, w, h);
           }
 
-          // Loop & Move Particles dynamically
           particles.forEach((p, idx) => {
             let color = `rgba(212, 175, 138, ${p.opacity})`;
 
-            // Modify parameters based on environmental phases
             if (phase === 'stars') {
               color = `rgba(255, 255, 255, ${p.opacity * 0.7})`;
               p.speedY = 0.03;
@@ -1555,17 +1700,15 @@
               ctx.fill();
             }
 
-            // Apply movement velocity
             p.x += p.speedX;
             p.y += p.speedY;
 
-            // Handle Boundary recycling
             if (p.y > h + 20 || p.x < -20 || p.x > w + 20) {
               particles[idx] = createParticle(false);
             }
           });
 
-          // Live audio visualizer line rendering
+          // Render waveform heights if screen is active
           if (this.currentScreen === 'player') {
             const bars = document.querySelectorAll('.wave-bar');
             bars.forEach((bar, i) => {
@@ -1582,7 +1725,7 @@
       }
     }
 
-    // Initialize Application Core
+    // Initialize module
     let app;
     window.addEventListener('DOMContentLoaded', () => {
       app = new ExperienceController();
